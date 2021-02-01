@@ -7,6 +7,7 @@ import net.minecraft.loot.ConstantLootTableRange;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.entry.ItemEntry;
+import net.minecraft.loot.function.CopyNameLootFunction;
 import net.minecraft.loot.function.CopyNbtLootFunction;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
@@ -26,9 +27,9 @@ public class KeepHeadNames implements ModInitializer {
                     .pool(LootPool.builder()
                         .rolls(ConstantLootTableRange.create(1))
                         .with(ItemEntry.builder(Items.PLAYER_HEAD)
+                            .apply(CopyNameLootFunction.builder(CopyNameLootFunction.Source.BLOCK_ENTITY))
                             .apply(CopyNbtLootFunction.builder(CopyNbtLootFunction.Source.BLOCK_ENTITY)
-                                .withOperation("SkullOwner", "SkullOwner")
-                                .withOperation("display", "display"))
+                                .withOperation("SkullOwner", "SkullOwner"))
                         )
                     )
                     .build()
