@@ -1,0 +1,27 @@
+{
+	"schemaVersion": 1,
+	"id": "keepheadnames",
+	"version": "${version}",
+	"name": "Keep Head Names",
+	"description": "Keep display names of player heads (fix MC-174496)",
+	"authors": [
+		"Fourmisain"
+	],
+	"contact": {},
+	"license": "MIT",
+	"icon": "assets/keepheadnames/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"fourmisain.keepheadnames.KeepHeadNames"
+		]
+	},
+	"mixins": [
+		"keepheadnames.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.11.1",
+		"fabric": "*",
+		"minecraft": ">=1.16.2"
+	}
+}

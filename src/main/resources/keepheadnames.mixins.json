@@ -1,0 +1,13 @@
+{
+	"required": true,
+	"minVersion": "0.8",
+	"package": "fourmisain.keepheadnames.mixin",
+	"compatibilityLevel": "JAVA_8",
+	"mixins": [
+		"PlayerSkullBlockMixin",
+		"SkullBlockEntityMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
