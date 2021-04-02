@@ -10,12 +10,8 @@ import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.function.CopyNameLootFunction;
 import net.minecraft.loot.function.CopyNbtLootFunction;
 import net.minecraft.util.Identifier;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class KeepHeadNames implements ModInitializer {
-    public static final Logger LOGGER = LogManager.getLogger("keepheadnames");
-
     private static final Identifier PLAYER_HEAD_LOOT_TABLE_ID = new Identifier("blocks/player_head");
 
     @Override

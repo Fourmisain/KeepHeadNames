@@ -1,6 +1,5 @@
 package fourmisain.keepheadnames.mixin;
 
-import fourmisain.keepheadnames.KeepHeadNames;
 import fourmisain.keepheadnames.NameSettable;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.SkullBlockEntity;
@@ -19,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(SkullBlockEntity.class)
 @Implements({
     @Interface(iface = Nameable.class, prefix = "nameable$"),
-    @Interface(iface = NameSettable.class, prefix = "namesettable$")
+    @Interface(iface = NameSettable.class, prefix = "namesettable$", remap = Interface.Remap.NONE, unique = true)
 })
 public abstract class SkullBlockEntityMixin implements Nameable, NameSettable {
 
@@ -30,7 +29,6 @@ public abstract class SkullBlockEntityMixin implements Nameable, NameSettable {
         if (customName != null)
             return customName;
 
-        // Currently, this will never be returned, but this might change in the future (e.g. when MC-174496 is fixed)
         return new LiteralText("Keep Head Names conflict");
     }
 

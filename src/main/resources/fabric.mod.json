@@ -7,7 +7,11 @@
 	"authors": [
 		"Fourmisain"
 	],
-	"contact": {},
+	"contact": {
+		"homepage": "https://www.curseforge.com/minecraft/mc-mods/keepheadnames",
+		"issues": "https://github.com/Fourmisain/KeepHeadNames/issues",
+		"sources": "https://github.com/Fourmisain/KeepHeadNames"
+	},
 	"license": "MIT",
 	"icon": "assets/keepheadnames/icon.png",
 	"environment": "*",
