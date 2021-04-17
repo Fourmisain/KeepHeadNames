@@ -1,4 +1,4 @@
-package fourmisain.keepheadnames;
+package fourmisain.keepheadnames.util;
 
 import net.minecraft.text.Text;
 

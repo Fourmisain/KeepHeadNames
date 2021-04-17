@@ -1,6 +1,7 @@
 package fourmisain.keepheadnames.mixin;
 
-import fourmisain.keepheadnames.NameSettable;
+import fourmisain.keepheadnames.util.Loreable;
+import fourmisain.keepheadnames.util.NameSettable;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.PlayerSkullBlock;
 import net.minecraft.block.entity.BlockEntity;
@@ -13,16 +14,18 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/** Stores the display name tag from the ItemStack inside the placed SkullBlockEntity */
+import java.util.Objects;
+
+import static fourmisain.keepheadnames.KeepHeadNames.getLore;
+
+/** Stores the display name and lore tag from the ItemStack inside the placed SkullBlockEntity */
 @Mixin(PlayerSkullBlock.class)
 public class PlayerSkullBlockMixin {
-
     @Inject(at = @At("TAIL"), method = "onPlaced")
     public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack, CallbackInfo ci) {
-        BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof NameSettable) {
-            NameSettable nameSettable = (NameSettable)blockEntity;
-            nameSettable.setCustomName(itemStack.getName());
-        }
+        BlockEntity blockEntity = Objects.requireNonNull(world.getBlockEntity(pos));
+
+        ((NameSettable) blockEntity).setCustomName(itemStack.getName());
+        ((Loreable) blockEntity).setLore(getLore(itemStack));
     }
 }

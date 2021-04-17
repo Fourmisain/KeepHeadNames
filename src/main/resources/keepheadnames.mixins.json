@@ -4,6 +4,7 @@
 	"package": "fourmisain.keepheadnames.mixin",
 	"compatibilityLevel": "JAVA_8",
 	"mixins": [
+		"LootFunctionTypesAccessor",
 		"PlayerSkullBlockMixin",
 		"SkullBlockEntityMixin"
 	],
