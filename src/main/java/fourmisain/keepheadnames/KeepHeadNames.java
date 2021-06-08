@@ -6,15 +6,16 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.loot.ConstantLootTableRange;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.function.CopyNameLootFunction;
 import net.minecraft.loot.function.CopyNbtLootFunction;
 import net.minecraft.loot.function.LootFunctionType;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.loot.provider.nbt.ContextLootNbtProvider;
+import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,23 +25,23 @@ public class KeepHeadNames implements ModInitializer {
     public static LootFunctionType COPY_LORE;
 
     @Nullable
-    public static ListTag getLore(ItemStack itemStack) {
-        CompoundTag compoundTag = itemStack.getSubTag("display");
+    public static NbtList getLore(ItemStack itemStack) {
+        NbtCompound NbtCompound = itemStack.getSubTag("display");
 
-        if (compoundTag != null && compoundTag.contains("Lore", 9)) {
-            return compoundTag.getList("Lore", 8);
+        if (NbtCompound != null && NbtCompound.contains("Lore", 9)) {
+            return NbtCompound.getList("Lore", 8);
         }
 
         return null;
     }
 
-    public static void setLore(ItemStack itemStack, @Nullable ListTag lore) {
-        CompoundTag compoundTag = itemStack.getOrCreateSubTag("display");
+    public static void setLore(ItemStack itemStack, @Nullable NbtList lore) {
+        NbtCompound NbtCompound = itemStack.getOrCreateSubTag("display");
 
         if (lore != null) {
-            compoundTag.put("Lore", lore);
+            NbtCompound.put("Lore", lore);
         } else {
-            compoundTag.remove("Lore");
+            NbtCompound.remove("Lore");
         }
     }
 
@@ -53,11 +54,11 @@ public class KeepHeadNames implements ModInitializer {
                 // ensure mined player heads keep their display tag and lore
                 setter.set(LootTable.builder()
                     .pool(LootPool.builder()
-                        .rolls(ConstantLootTableRange.create(1))
+                        .rolls(ConstantLootNumberProvider.create(1))
                         .with(ItemEntry.builder(Items.PLAYER_HEAD)
                             .apply(CopyNameLootFunction.builder(CopyNameLootFunction.Source.BLOCK_ENTITY))
                             .apply(CopyLoreLootFunction.builder(CopyLoreLootFunction.Source.BLOCK_ENTITY))
-                            .apply(CopyNbtLootFunction.builder(CopyNbtLootFunction.Source.BLOCK_ENTITY)
+                            .apply(CopyNbtLootFunction.builder(ContextLootNbtProvider.BLOCK_ENTITY)
                                 .withOperation("SkullOwner", "SkullOwner"))
                         )
                     )

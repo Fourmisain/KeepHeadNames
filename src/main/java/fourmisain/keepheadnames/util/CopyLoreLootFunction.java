@@ -1,5 +1,6 @@
 package fourmisain.keepheadnames.util;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
@@ -11,18 +12,24 @@ import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameter;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.function.ConditionalLootFunction;
+import net.minecraft.loot.function.CopyNameLootFunction;
+import net.minecraft.loot.function.CopyNbtLootFunction;
 import net.minecraft.loot.function.LootFunctionType;
+import net.minecraft.loot.provider.nbt.LootNbtProvider;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.util.JsonHelper;
+import net.minecraft.util.Nameable;
 
+import java.util.Objects;
 import java.util.Set;
 
 import static fourmisain.keepheadnames.KeepHeadNames.setLore;
 
 public class CopyLoreLootFunction extends ConditionalLootFunction {
-	private final CopyLoreLootFunction.Source source;
+	final CopyLoreLootFunction.Source source;
 
-	private CopyLoreLootFunction(LootCondition[] conditions, CopyLoreLootFunction.Source source) {
-		super(conditions);
+	CopyLoreLootFunction(LootCondition[] lootConditions, CopyLoreLootFunction.Source source) {
+		super(lootConditions);
 		this.source = source;
 	}
 
@@ -34,18 +41,17 @@ public class CopyLoreLootFunction extends ConditionalLootFunction {
 		return ImmutableSet.of(this.source.parameter);
 	}
 
-	public ItemStack process(ItemStack itemStack, LootContext context) {
+	public ItemStack process(ItemStack stack, LootContext context) {
 		Object object = context.get(this.source.parameter);
 
-		if (object instanceof Loreable) {
-			Loreable loreable = (Loreable)object;
-			setLore(itemStack, loreable.getLore());
+		if (object instanceof Loreable loreable) {
+			setLore(stack, loreable.getLore());
 		}
 
-		return itemStack;
+		return stack;
 	}
 
-	public static ConditionalLootFunction.Builder<?> builder(CopyLoreLootFunction.Source source) {
+	public static Builder<?> builder(CopyLoreLootFunction.Source source) {
 		return builder((conditions) -> new CopyLoreLootFunction(conditions, source));
 	}
 

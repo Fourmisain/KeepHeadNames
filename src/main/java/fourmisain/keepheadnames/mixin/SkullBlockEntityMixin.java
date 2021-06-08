@@ -2,10 +2,9 @@ package fourmisain.keepheadnames.mixin;
 
 import fourmisain.keepheadnames.util.Loreable;
 import fourmisain.keepheadnames.util.NameSettable;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.SkullBlockEntity;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Nameable;
@@ -28,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 })
 public abstract class SkullBlockEntityMixin implements Nameable {
     @Unique Text customName;
-    @Unique ListTag lore;
+    @Unique NbtList lore;
 
     public Text nameable$getName() {
         if (customName != null)
@@ -46,35 +45,33 @@ public abstract class SkullBlockEntityMixin implements Nameable {
         this.customName = customName;
     }
 
-    public ListTag loreable$getLore() {
+    public NbtList loreable$getLore() {
         return lore;
     }
 
-    public void loreable$setLore(ListTag lore) {
+    public void loreable$setLore(NbtList lore) {
         this.lore = lore;
     }
 
-    /** Serializes the stored display name and lore */
-    @Inject(at = @At("RETURN"), method = "toTag")
-    public void toTag(CompoundTag tag, CallbackInfoReturnable<CompoundTag> cir) {
+    @Inject(at = @At("RETURN"), method = "writeNbt")
+    public void writeNbt(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> cir) {
         if (customName != null) {
-            tag.putString("CustomName", Text.Serializer.toJson(customName));
+            nbt.putString("CustomName", Text.Serializer.toJson(customName));
         }
 
         if (lore != null) {
-            tag.put("Lore", lore);
+            nbt.put("Lore", lore);
         }
     }
 
-    /** Deserializes the stored display name and lore */
-    @Inject(at = @At("HEAD"), method = "fromTag")
-    public void fromTag(BlockState state, CompoundTag tag, CallbackInfo ci) {
-        if (tag.contains("CustomName", 8)) {
-            customName = Text.Serializer.fromJson(tag.getString("CustomName"));
+    @Inject(at = @At("HEAD"), method = "readNbt")
+    public void readNbt(NbtCompound nbt, CallbackInfo ci) {
+        if (nbt.contains("CustomName", 8)) {
+            customName = Text.Serializer.fromJson(nbt.getString("CustomName"));
         }
 
-        if (tag.contains("Lore", 9)) {
-            lore = tag.getList("Lore", 8);
+        if (nbt.contains("Lore", 9)) {
+            lore = nbt.getList("Lore", 8);
         }
     }
 }
