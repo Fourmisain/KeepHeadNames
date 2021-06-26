@@ -4,6 +4,7 @@ import fourmisain.keepheadnames.util.Loreable;
 import fourmisain.keepheadnames.util.NameSettable;
 import net.minecraft.block.entity.SkullBlockEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
@@ -66,12 +67,12 @@ public abstract class SkullBlockEntityMixin implements Nameable {
 
     @Inject(at = @At("HEAD"), method = "readNbt")
     public void readNbt(NbtCompound nbt, CallbackInfo ci) {
-        if (nbt.contains("CustomName", 8)) {
+        if (nbt.contains("CustomName", NbtElement.STRING_TYPE)) {
             customName = Text.Serializer.fromJson(nbt.getString("CustomName"));
         }
 
-        if (nbt.contains("Lore", 9)) {
-            lore = nbt.getList("Lore", 8);
+        if (nbt.contains("Lore", NbtElement.LIST_TYPE)) {
+            lore = nbt.getList("Lore", NbtElement.STRING_TYPE);
         }
     }
 }
