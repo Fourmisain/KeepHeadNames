@@ -14,7 +14,6 @@ import net.minecraft.loot.function.CopyNameLootFunction;
 import net.minecraft.loot.function.CopyNbtLootFunction;
 import net.minecraft.loot.function.LootFunctionType;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -36,12 +35,19 @@ public class KeepHeadNames implements ModInitializer {
 	}
 
 	public static void setLore(ItemStack itemStack, @Nullable NbtList lore) {
-		NbtCompound compound = itemStack.getOrCreateSubTag("display");
-
 		if (lore != null) {
-			compound.put("Lore", lore);
+			NbtCompound displayTag = itemStack.getOrCreateSubTag("display");
+			displayTag.put("Lore", lore);
 		} else {
-			compound.remove("Lore");
+			NbtCompound displayTag = itemStack.getSubTag("display");
+
+			if (displayTag != null) {
+				displayTag.remove("Lore");
+
+				if (displayTag.isEmpty()) {
+					itemStack.removeSubTag("display");
+				}
+			}
 		}
 	}
 

@@ -5,7 +5,6 @@ import fourmisain.keepheadnames.util.NameSettable;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.SkullBlockEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
