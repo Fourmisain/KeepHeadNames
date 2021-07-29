@@ -20,9 +20,9 @@ import static fourmisain.keepheadnames.KeepHeadNames.getLore;
 
 /** Stores the display name and lore tag from the ItemStack inside the placed SkullBlockEntity */
 @Mixin(PlayerSkullBlock.class)
-public class PlayerSkullBlockMixin {
-    @Inject(at = @At("TAIL"), method = "onPlaced")
-    public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack, CallbackInfo ci) {
+public abstract class PlayerSkullBlockMixin {
+    @Inject(method = "onPlaced", at = @At("TAIL"))
+    public void copyNameAndLoreToSkullBlock(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack, CallbackInfo ci) {
         BlockEntity blockEntity = Objects.requireNonNull(world.getBlockEntity(pos));
 
         ((NameSettable) blockEntity).setCustomName(itemStack.getName());
