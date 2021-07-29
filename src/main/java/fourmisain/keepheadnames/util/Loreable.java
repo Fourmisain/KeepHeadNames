@@ -1,8 +1,8 @@
 package fourmisain.keepheadnames.util;
 
-import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtList;
 
 public interface Loreable {
-	void setLore(ListTag lore);
-	ListTag getLore();
+	void setLore(NbtList lore);
+	NbtList getLore();
 }

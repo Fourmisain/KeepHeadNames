@@ -25,7 +25,9 @@ public class PlayerSkullBlockMixin {
     public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack, CallbackInfo ci) {
         BlockEntity blockEntity = Objects.requireNonNull(world.getBlockEntity(pos));
 
-        ((NameSettable) blockEntity).setCustomName(itemStack.getName());
+        if (itemStack.hasCustomName()) {
+            ((NameSettable) blockEntity).setCustomName(itemStack.getName());
+        }
         ((Loreable) blockEntity).setLore(getLore(itemStack));
     }
 }

@@ -13,57 +13,58 @@ import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.function.CopyNameLootFunction;
 import net.minecraft.loot.function.CopyNbtLootFunction;
 import net.minecraft.loot.function.LootFunctionType;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 public class KeepHeadNames implements ModInitializer {
-    private static final Identifier PLAYER_HEAD_LOOT_TABLE_ID = new Identifier("blocks/player_head");
+	private static final Identifier PLAYER_HEAD_LOOT_TABLE_ID = new Identifier("blocks/player_head");
 
-    public static LootFunctionType COPY_LORE;
+	public static LootFunctionType COPY_LORE;
 
-    @Nullable
-    public static ListTag getLore(ItemStack itemStack) {
-        CompoundTag compoundTag = itemStack.getSubTag("display");
+	@Nullable
+	public static NbtList getLore(ItemStack itemStack) {
+		NbtCompound compound = itemStack.getSubTag("display");
 
-        if (compoundTag != null && compoundTag.contains("Lore", 9)) {
-            return compoundTag.getList("Lore", 8);
-        }
+		if (compound != null && compound.contains("Lore", 9)) {
+			return compound.getList("Lore", 8);
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    public static void setLore(ItemStack itemStack, @Nullable ListTag lore) {
-        CompoundTag compoundTag = itemStack.getOrCreateSubTag("display");
+	public static void setLore(ItemStack itemStack, @Nullable NbtList lore) {
+		NbtCompound compound = itemStack.getOrCreateSubTag("display");
 
-        if (lore != null) {
-            compoundTag.put("Lore", lore);
-        } else {
-            compoundTag.remove("Lore");
-        }
-    }
+		if (lore != null) {
+			compound.put("Lore", lore);
+		} else {
+			compound.remove("Lore");
+		}
+	}
 
-    @Override
-    public void onInitialize() {
-        COPY_LORE = LootFunctionTypesAccessor.register("copy_lore", new CopyLoreLootFunction.Serializer());
+	@Override
+	public void onInitialize() {
+		COPY_LORE = LootFunctionTypesAccessor.register("copy_lore", new CopyLoreLootFunction.Serializer());
 
-        LootTableLoadingCallback.EVENT.register((resourceManager, lootManager, id, supplier, setter) -> {
-            if (id.equals(PLAYER_HEAD_LOOT_TABLE_ID)) {
-                // ensure mined player heads keep their display tag and lore
-                setter.set(LootTable.builder()
-                    .pool(LootPool.builder()
-                        .rolls(ConstantLootTableRange.create(1))
-                        .with(ItemEntry.builder(Items.PLAYER_HEAD)
-                            .apply(CopyNameLootFunction.builder(CopyNameLootFunction.Source.BLOCK_ENTITY))
-                            .apply(CopyLoreLootFunction.builder(CopyLoreLootFunction.Source.BLOCK_ENTITY))
-                            .apply(CopyNbtLootFunction.builder(CopyNbtLootFunction.Source.BLOCK_ENTITY)
-                                .withOperation("SkullOwner", "SkullOwner"))
-                        )
-                    )
-                    .build()
-                );
-            }
-        });
-    }
+		LootTableLoadingCallback.EVENT.register((resourceManager, lootManager, id, supplier, setter) -> {
+			if (id.equals(PLAYER_HEAD_LOOT_TABLE_ID)) {
+				// ensure mined player heads keep their display tag and lore
+				setter.set(LootTable.builder()
+					.pool(LootPool.builder()
+						.rolls(ConstantLootTableRange.create(1))
+						.with(ItemEntry.builder(Items.PLAYER_HEAD)
+							.apply(CopyNameLootFunction.builder(CopyNameLootFunction.Source.BLOCK_ENTITY))
+							.apply(CopyLoreLootFunction.builder(CopyLoreLootFunction.Source.BLOCK_ENTITY))
+							.apply(CopyNbtLootFunction.builder(CopyNbtLootFunction.Source.BLOCK_ENTITY)
+								.withOperation("SkullOwner", "SkullOwner"))
+						)
+					)
+					.build()
+				);
+			}
+		});
+	}
 }
