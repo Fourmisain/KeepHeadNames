@@ -26,14 +26,17 @@ public class CopyLoreLootFunction extends ConditionalLootFunction {
 		this.source = source;
 	}
 
+	@Override
 	public LootFunctionType getType() {
 		return KeepHeadNames.COPY_LORE;
 	}
 
+	@Override
 	public Set<LootContextParameter<?>> getRequiredParameters() {
 		return ImmutableSet.of(this.source.parameter);
 	}
 
+	@Override
 	public ItemStack process(ItemStack stack, LootContext context) {
 		Object object = context.get(this.source.parameter);
 

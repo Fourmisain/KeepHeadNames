@@ -42,7 +42,7 @@ public abstract class SkullBlockEntityMixin implements Nameable {
         return customName;
     }
 
-    public void namesettable$setCustomName(Text customName) {
+    public void namesettable$setCustomName(@Nullable Text customName) {
         this.customName = customName;
     }
 
@@ -50,12 +50,12 @@ public abstract class SkullBlockEntityMixin implements Nameable {
         return lore;
     }
 
-    public void loreable$setLore(NbtList lore) {
+    public void loreable$setLore(@Nullable NbtList lore) {
         this.lore = lore;
     }
 
     @Inject(method = "writeNbt", at = @At("RETURN"))
-    public void writeNbt(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> cir) {
+    public void writeNameAndLoreNbt(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> cir) {
         if (customName != null) {
             nbt.putString("CustomName", Text.Serializer.toJson(customName));
         }
@@ -66,7 +66,7 @@ public abstract class SkullBlockEntityMixin implements Nameable {
     }
 
     @Inject(method = "fromTag", at = @At("HEAD"))
-    public void readNbt(BlockState state, NbtCompound nbt, CallbackInfo ci) {
+    public void readNameAndLoreNbt(BlockState state, NbtCompound nbt, CallbackInfo ci) {
         if (nbt.contains("CustomName", 8)) {
             customName = Text.Serializer.fromJson(nbt.getString("CustomName"));
         }
