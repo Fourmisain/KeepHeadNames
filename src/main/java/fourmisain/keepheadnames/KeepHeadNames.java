@@ -27,10 +27,10 @@ public class KeepHeadNames implements ModInitializer {
 
 	@Nullable
 	public static NbtList getLore(ItemStack itemStack) {
-		NbtCompound compound = itemStack.getSubTag("display");
+		NbtCompound displayTag = itemStack.getSubNbt("display");
 
-		if (compound != null && compound.contains("Lore", NbtElement.LIST_TYPE)) {
-			return compound.getList("Lore", NbtElement.STRING_TYPE);
+		if (displayTag != null && displayTag.contains("Lore", NbtElement.LIST_TYPE)) {
+			return displayTag.getList("Lore", NbtElement.STRING_TYPE);
 		}
 
 		return null;
@@ -38,16 +38,16 @@ public class KeepHeadNames implements ModInitializer {
 
 	public static void setLore(ItemStack itemStack, @Nullable NbtList lore) {
 		if (lore != null) {
-			NbtCompound displayTag = itemStack.getOrCreateSubTag("display");
+			NbtCompound displayTag = itemStack.getOrCreateSubNbt("display");
 			displayTag.put("Lore", lore);
 		} else {
-			NbtCompound displayTag = itemStack.getSubTag("display");
+			NbtCompound displayTag = itemStack.getSubNbt("display");
 
 			if (displayTag != null) {
 				displayTag.remove("Lore");
 
 				if (displayTag.isEmpty()) {
-					itemStack.removeSubTag("display");
+					itemStack.removeSubNbt("display");
 				}
 			}
 		}
