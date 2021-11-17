@@ -55,7 +55,7 @@ public abstract class SkullBlockEntityMixin implements Nameable {
     }
 
     @Inject(method = "writeNbt", at = @At("RETURN"))
-    public void writeNameAndLoreNbt(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> cir) {
+    public void writeNameAndLoreNbt(NbtCompound nbt, CallbackInfo ci) {
         if (customName != null) {
             nbt.putString("CustomName", Text.Serializer.toJson(customName));
         }
