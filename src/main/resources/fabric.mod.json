@@ -24,8 +24,8 @@
 		"keepheadnames.mixins.json"
 	],
 	"depends": {
-		"fabricloader": "*",
+		"fabricloader": ">=0.12.8",
 		"fabric": "*",
-		"minecraft": ">=1.17.0"
+		"minecraft": ">=1.18.0"
 	}
 }
