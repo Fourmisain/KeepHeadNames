@@ -1,4 +1,5 @@
 # User-specific stuff
+.vscode/
 .idea/
 
 *.iml
