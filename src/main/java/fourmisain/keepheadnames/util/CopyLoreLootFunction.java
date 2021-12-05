@@ -58,7 +58,7 @@ public class CopyLoreLootFunction extends ConditionalLootFunction {
 		}
 
 		public CopyLoreLootFunction fromJson(JsonObject jsonObject, JsonDeserializationContext jsonDeserializationContext, LootCondition[] lootConditions) {
-			CopyLoreLootFunction.Source source = CopyLoreLootFunction.Source.valueOf(JsonHelper.getString(jsonObject, "source"));
+			CopyLoreLootFunction.Source source = CopyLoreLootFunction.Source.get(JsonHelper.getString(jsonObject, "source"));
 			return new CopyLoreLootFunction(lootConditions, source);
 		}
 	}
@@ -75,6 +75,16 @@ public class CopyLoreLootFunction extends ConditionalLootFunction {
 		Source(String name, LootContextParameter<?> parameter) {
 			this.name = name;
 			this.parameter = parameter;
+		}
+
+		public static CopyLoreLootFunction.Source get(String name) {
+			for (var source : values()) {
+				if (source.name.equals(name)) {
+					return source;
+				}
+			}
+
+			throw new IllegalArgumentException("Invalid name source " + name);
 		}
 	}
 }
