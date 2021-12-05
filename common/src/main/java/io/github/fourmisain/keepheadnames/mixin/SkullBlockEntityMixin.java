@@ -20,16 +20,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /** Add Nameable interface to SkullBlockEntity and de/serialize the custom name and lore tags */
 @Mixin(SkullBlockEntity.class)
-@Implements({
-	@Interface(iface = Nameable.class, prefix = "nameable$"),
-	@Interface(iface = NameSettable.class, prefix = "namesettable$", remap = Interface.Remap.NONE, unique = true),
-	@Interface(iface = Loreable.class, prefix = "loreable$", remap = Interface.Remap.NONE, unique = true)
-})
-public abstract class SkullBlockEntityMixin implements Nameable {
+public abstract class SkullBlockEntityMixin implements Nameable, NameSettable, Loreable {
 	@Unique Text customName;
 	@Unique NbtList lore;
 
-	public Text nameable$getName() {
+	public Text getName() {
 		if (customName != null)
 			return customName;
 
@@ -37,19 +32,19 @@ public abstract class SkullBlockEntityMixin implements Nameable {
 	}
 
 	@Nullable
-	public Text nameable$getCustomName() {
+	public Text getCustomName() {
 		return customName;
 	}
 
-	public void namesettable$setCustomName(@Nullable Text customName) {
+	public void setCustomName(@Nullable Text customName) {
 		this.customName = customName;
 	}
 
-	public NbtList loreable$getLore() {
+	public NbtList getLore() {
 		return lore;
 	}
 
-	public void loreable$setLore(@Nullable NbtList lore) {
+	public void setLore(@Nullable NbtList lore) {
 		this.lore = lore;
 	}
 
