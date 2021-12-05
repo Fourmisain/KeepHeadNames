@@ -2,6 +2,7 @@ package io.github.fourmisain.keepheadnames.mixin;
 
 import io.github.fourmisain.keepheadnames.util.Loreable;
 import io.github.fourmisain.keepheadnames.util.NameSettable;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.SkullBlockEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -60,14 +61,14 @@ public abstract class SkullBlockEntityMixin implements Nameable, NameSettable, L
 		}
 	}
 
-	@Inject(method = "readNbt", at = @At("HEAD"))
-	public void readNameAndLoreNbt(NbtCompound nbt, CallbackInfo ci) {
-		if (nbt.contains("CustomName", NbtElement.STRING_TYPE)) {
+	@Inject(method = "fromTag", at = @At("HEAD"))
+	public void readNameAndLoreNbt(BlockState state, NbtCompound nbt, CallbackInfo ci) {
+		if (nbt.contains("CustomName", 8)) {
 			customName = Text.Serializer.fromJson(nbt.getString("CustomName"));
 		}
 
-		if (nbt.contains("Lore", NbtElement.LIST_TYPE)) {
-			lore = nbt.getList("Lore", NbtElement.STRING_TYPE);
+		if (nbt.contains("Lore", 9)) {
+			lore = nbt.getList("Lore", 8);
 		}
 	}
 }

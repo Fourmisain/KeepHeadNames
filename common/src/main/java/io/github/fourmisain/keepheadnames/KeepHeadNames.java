@@ -21,10 +21,10 @@ public class KeepHeadNames {
 
 	@Nullable
 	public static NbtList getLore(ItemStack itemStack) {
-		NbtCompound displayTag = itemStack.getSubNbt("display");
+		NbtCompound displayTag = itemStack.getSubTag("display");
 
-		if (displayTag != null && displayTag.contains("Lore", NbtElement.LIST_TYPE)) {
-			return displayTag.getList("Lore", NbtElement.STRING_TYPE);
+		if (displayTag != null && displayTag.contains("Lore", 9)) {
+			return displayTag.getList("Lore", 8);
 		}
 
 		return null;
@@ -32,16 +32,16 @@ public class KeepHeadNames {
 
 	public static void setLore(ItemStack itemStack, @Nullable NbtList lore) {
 		if (lore != null) {
-			NbtCompound displayTag = itemStack.getOrCreateSubNbt("display");
+			NbtCompound displayTag = itemStack.getOrCreateSubTag("display");
 			displayTag.put("Lore", lore);
 		} else {
-			NbtCompound displayTag = itemStack.getSubNbt("display");
+			NbtCompound displayTag = itemStack.getSubTag("display");
 
 			if (displayTag != null) {
 				displayTag.remove("Lore");
 
 				if (displayTag.isEmpty()) {
-					itemStack.removeSubNbt("display");
+					itemStack.removeSubTag("display");
 				}
 			}
 		}

@@ -40,8 +40,8 @@ public class CopyLoreLootFunction extends ConditionalLootFunction {
 	public ItemStack process(ItemStack stack, LootContext context) {
 		Object object = context.get(this.source.parameter);
 
-		if (object instanceof Loreable loreable) {
-			setLore(stack, loreable.getLore());
+		if (object instanceof Loreable) {
+			setLore(stack, ((Loreable) object).getLore());
 		}
 
 		return stack;
@@ -78,7 +78,7 @@ public class CopyLoreLootFunction extends ConditionalLootFunction {
 		}
 
 		public static CopyLoreLootFunction.Source get(String name) {
-			for (var source : values()) {
+			for (Source source : values()) {
 				if (source.name.equals(name)) {
 					return source;
 				}
