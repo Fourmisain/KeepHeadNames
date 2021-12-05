@@ -17,6 +17,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /** Add Nameable interface to SkullBlockEntity and de/serialize the custom name and lore tags */
 @Mixin(SkullBlockEntity.class)
@@ -49,7 +50,7 @@ public abstract class SkullBlockEntityMixin implements Nameable, NameSettable, L
 	}
 
 	@Inject(method = "writeNbt", at = @At("RETURN"))
-	public void writeNameAndLoreNbt(NbtCompound nbt, CallbackInfo ci) {
+	public void writeNameAndLoreNbt(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> cir) {
 		if (customName != null) {
 			nbt.putString("CustomName", Text.Serializer.toJson(customName));
 		}

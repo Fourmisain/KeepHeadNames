@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[38,)"
+loaderVersion = "[37,)"
 issueTrackerURL = "https://github.com/Fourmisain/KeepHeadNames/issues"
 license = "MIT"
 
@@ -16,13 +16,13 @@ logoFile = "icon.png"
 [[dependencies.keepheadnames]]
 modId = "forge"
 mandatory = true
-versionRange = "[38.0.6,)"
+versionRange = "[37,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.keepheadnames]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.18,)"
+versionRange = "[1.17,1.18)"
 ordering = "NONE"
 side = "BOTH"
