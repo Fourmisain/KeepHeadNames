@@ -21,57 +21,57 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 /** Add Nameable interface to SkullBlockEntity and de/serialize the custom name and lore tags */
 @Mixin(SkullBlockEntity.class)
 @Implements({
-    @Interface(iface = Nameable.class, prefix = "nameable$"),
-    @Interface(iface = NameSettable.class, prefix = "namesettable$", remap = Interface.Remap.NONE, unique = true),
-    @Interface(iface = Loreable.class, prefix = "loreable$", remap = Interface.Remap.NONE, unique = true)
+	@Interface(iface = Nameable.class, prefix = "nameable$"),
+	@Interface(iface = NameSettable.class, prefix = "namesettable$", remap = Interface.Remap.NONE, unique = true),
+	@Interface(iface = Loreable.class, prefix = "loreable$", remap = Interface.Remap.NONE, unique = true)
 })
 public abstract class SkullBlockEntityMixin implements Nameable {
-    @Unique Text customName;
-    @Unique NbtList lore;
+	@Unique Text customName;
+	@Unique NbtList lore;
 
-    public Text nameable$getName() {
-        if (customName != null)
-            return customName;
+	public Text nameable$getName() {
+		if (customName != null)
+			return customName;
 
-        return new LiteralText("Keep Head Names conflict");
-    }
+		return new LiteralText("Keep Head Names conflict");
+	}
 
-    @Nullable
-    public Text nameable$getCustomName() {
-        return customName;
-    }
+	@Nullable
+	public Text nameable$getCustomName() {
+		return customName;
+	}
 
-    public void namesettable$setCustomName(@Nullable Text customName) {
-        this.customName = customName;
-    }
+	public void namesettable$setCustomName(@Nullable Text customName) {
+		this.customName = customName;
+	}
 
-    public NbtList loreable$getLore() {
-        return lore;
-    }
+	public NbtList loreable$getLore() {
+		return lore;
+	}
 
-    public void loreable$setLore(@Nullable NbtList lore) {
-        this.lore = lore;
-    }
+	public void loreable$setLore(@Nullable NbtList lore) {
+		this.lore = lore;
+	}
 
-    @Inject(method = "writeNbt", at = @At("RETURN"))
-    public void writeNameAndLoreNbt(NbtCompound nbt, CallbackInfo ci) {
-        if (customName != null) {
-            nbt.putString("CustomName", Text.Serializer.toJson(customName));
-        }
+	@Inject(method = "writeNbt", at = @At("RETURN"))
+	public void writeNameAndLoreNbt(NbtCompound nbt, CallbackInfo ci) {
+		if (customName != null) {
+			nbt.putString("CustomName", Text.Serializer.toJson(customName));
+		}
 
-        if (lore != null) {
-            nbt.put("Lore", lore);
-        }
-    }
+		if (lore != null) {
+			nbt.put("Lore", lore);
+		}
+	}
 
-    @Inject(method = "readNbt", at = @At("HEAD"))
-    public void readNameAndLoreNbt(NbtCompound nbt, CallbackInfo ci) {
-        if (nbt.contains("CustomName", NbtElement.STRING_TYPE)) {
-            customName = Text.Serializer.fromJson(nbt.getString("CustomName"));
-        }
+	@Inject(method = "readNbt", at = @At("HEAD"))
+	public void readNameAndLoreNbt(NbtCompound nbt, CallbackInfo ci) {
+		if (nbt.contains("CustomName", NbtElement.STRING_TYPE)) {
+			customName = Text.Serializer.fromJson(nbt.getString("CustomName"));
+		}
 
-        if (nbt.contains("Lore", NbtElement.LIST_TYPE)) {
-            lore = nbt.getList("Lore", NbtElement.STRING_TYPE);
-        }
-    }
+		if (nbt.contains("Lore", NbtElement.LIST_TYPE)) {
+			lore = nbt.getList("Lore", NbtElement.STRING_TYPE);
+		}
+	}
 }
