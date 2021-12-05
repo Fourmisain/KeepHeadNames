@@ -1,0 +1,28 @@
+modLoader = "javafml"
+loaderVersion = "[38,)"
+issueTrackerURL = "https://github.com/Fourmisain/KeepHeadNames/issues"
+license = "MIT"
+
+[[mods]]
+modId = "keepheadnames"
+version = "${version}"
+displayName = "Keep Head Names"
+authors = "Fourmisain"
+description = '''
+Keep display names and lore tags of player heads (fix MC-174496)
+'''
+logoFile = "icon.png"
+
+[[dependencies.keepheadnames]]
+modId = "forge"
+mandatory = true
+versionRange = "[38.0.6,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.keepheadnames]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.18,)"
+ordering = "NONE"
+side = "BOTH"

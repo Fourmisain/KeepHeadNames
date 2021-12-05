@@ -3,7 +3,7 @@
 	"id": "keepheadnames",
 	"version": "${version}",
 	"name": "Keep Head Names",
-	"description": "Keep display names of player heads (fix MC-174496)",
+	"description": "Keep display names and lore tags of player heads (fix MC-174496)",
 	"authors": [
 		"Fourmisain"
 	],
@@ -17,7 +17,7 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"fourmisain.keepheadnames.KeepHeadNames"
+			"io.github.fourmisain.keepheadnames.KeepHeadNamesFabric"
 		]
 	},
 	"mixins": [

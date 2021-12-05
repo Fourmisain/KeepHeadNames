@@ -1,7 +1,6 @@
-package fourmisain.keepheadnames;
+package io.github.fourmisain.keepheadnames;
 
-import fourmisain.keepheadnames.util.CopyLoreLootFunction;
-import net.fabricmc.api.ModInitializer;
+import io.github.fourmisain.keepheadnames.util.CopyLoreLootFunction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.function.LootFunctionType;
 import net.minecraft.nbt.NbtCompound;
@@ -11,7 +10,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Nullable;
 
-public class KeepHeadNames implements ModInitializer {
+public class KeepHeadNames {
 	public static final String MOD_ID = "keepheadnames";
 
 	public static LootFunctionType COPY_LORE;
@@ -48,8 +47,7 @@ public class KeepHeadNames implements ModInitializer {
 		}
 	}
 
-	@Override
-	public void onInitialize() {
+	public static void init() {
 		COPY_LORE = Registry.register(Registry.LOOT_FUNCTION_TYPE, id("copy_lore"), new LootFunctionType(new CopyLoreLootFunction.Serializer()));
 	}
 }

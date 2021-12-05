@@ -1,7 +1,7 @@
-package fourmisain.keepheadnames.mixin;
+package io.github.fourmisain.keepheadnames.mixin;
 
-import fourmisain.keepheadnames.util.Loreable;
-import fourmisain.keepheadnames.util.NameSettable;
+import io.github.fourmisain.keepheadnames.util.Loreable;
+import io.github.fourmisain.keepheadnames.util.NameSettable;
 import net.minecraft.block.entity.SkullBlockEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -17,7 +17,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /** Add Nameable interface to SkullBlockEntity and de/serialize the custom name and lore tags */
 @Mixin(SkullBlockEntity.class)

@@ -1,4 +1,4 @@
-package fourmisain.keepheadnames.util;
+package io.github.fourmisain.keepheadnames.util;
 
 import net.minecraft.nbt.NbtList;
 

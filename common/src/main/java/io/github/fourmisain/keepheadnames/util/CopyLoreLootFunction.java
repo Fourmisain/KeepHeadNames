@@ -1,10 +1,10 @@
-package fourmisain.keepheadnames.util;
+package io.github.fourmisain.keepheadnames.util;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
-import fourmisain.keepheadnames.KeepHeadNames;
+import io.github.fourmisain.keepheadnames.KeepHeadNames;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.condition.LootCondition;
 import net.minecraft.loot.context.LootContext;
@@ -16,7 +16,7 @@ import net.minecraft.util.JsonHelper;
 
 import java.util.Set;
 
-import static fourmisain.keepheadnames.KeepHeadNames.setLore;
+import static io.github.fourmisain.keepheadnames.KeepHeadNames.setLore;
 
 public class CopyLoreLootFunction extends ConditionalLootFunction {
 	final CopyLoreLootFunction.Source source;

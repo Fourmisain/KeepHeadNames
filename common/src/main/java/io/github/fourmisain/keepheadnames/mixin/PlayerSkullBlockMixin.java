@@ -1,7 +1,7 @@
-package fourmisain.keepheadnames.mixin;
+package io.github.fourmisain.keepheadnames.mixin;
 
-import fourmisain.keepheadnames.util.Loreable;
-import fourmisain.keepheadnames.util.NameSettable;
+import io.github.fourmisain.keepheadnames.util.NameSettable;
+import io.github.fourmisain.keepheadnames.util.Loreable;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.PlayerSkullBlock;
 import net.minecraft.block.entity.BlockEntity;
@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Objects;
 
-import static fourmisain.keepheadnames.KeepHeadNames.getLore;
+import static io.github.fourmisain.keepheadnames.KeepHeadNames.getLore;
 
 /** Stores the display name and lore tag from the ItemStack inside the placed SkullBlockEntity */
 @Mixin(PlayerSkullBlock.class)
