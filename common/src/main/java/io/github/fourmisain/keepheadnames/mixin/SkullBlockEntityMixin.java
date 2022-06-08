@@ -6,12 +6,9 @@ import net.minecraft.block.entity.SkullBlockEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Nameable;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Implements;
-import org.spongepowered.asm.mixin.Interface;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -28,7 +25,7 @@ public abstract class SkullBlockEntityMixin implements Nameable, NameSettable, L
 		if (customName != null)
 			return customName;
 
-		return new LiteralText("Keep Head Names conflict");
+		return Text.of("Keep Head Names conflict");
 	}
 
 	@Nullable

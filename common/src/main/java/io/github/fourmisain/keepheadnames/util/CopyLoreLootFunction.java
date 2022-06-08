@@ -47,7 +47,7 @@ public class CopyLoreLootFunction extends ConditionalLootFunction {
 		return stack;
 	}
 
-	public static Builder<?> builder(CopyLoreLootFunction.Source source) {
+	public static net.minecraft.loot.function.ConditionalLootFunction.Builder<?> builder(CopyLoreLootFunction.Source source) {
 		return builder((conditions) -> new CopyLoreLootFunction(conditions, source));
 	}
 
