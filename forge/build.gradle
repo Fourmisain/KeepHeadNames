@@ -1,16 +1,18 @@
 plugins {
-	id "com.github.johnrengelman.shadow" version "7.1.0"
-}
-
-loom {
-	forge {
-		mixinConfig "keepheadnames.mixins.json"
-	}
+	id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
 architectury {
 	platformSetupLoomIde()
 	forge()
+}
+
+version = rootProject.mod_version + "-forge-" + rootProject.minecraft_version
+
+loom {
+	forge {
+		mixinConfig "keepheadnames.mixins.json"
+	}
 }
 
 configurations {
@@ -20,8 +22,6 @@ configurations {
 	runtimeClasspath.extendsFrom common
 	developmentForge.extendsFrom common
 }
-
-version = rootProject.mod_version + "-forge-" + rootProject.minecraft_version
 
 dependencies {
 	forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
@@ -40,6 +40,7 @@ processResources {
 
 shadowJar {
 	exclude "fabric.mod.json"
+	exclude "architectury.common.json"
 
 	configurations = [project.configurations.shadowCommon]
 	classifier "dev-shadow"
