@@ -6,14 +6,15 @@ import net.minecraft.loot.function.LootFunctionType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Nullable;
 
 public class KeepHeadNames {
 	public static final String MOD_ID = "keepheadnames";
 
-	public static LootFunctionType COPY_LORE;
+	public static LootFunctionType COPY_LORE = new LootFunctionType(new CopyLoreLootFunction.Serializer());
 
 	public static Identifier id(String path) {
 		return new Identifier(MOD_ID, path);
@@ -48,6 +49,6 @@ public class KeepHeadNames {
 	}
 
 	public static void init() {
-		COPY_LORE = Registry.register(Registry.LOOT_FUNCTION_TYPE, id("copy_lore"), new LootFunctionType(new CopyLoreLootFunction.Serializer()));
+		Registry.register(Registries.LOOT_FUNCTION_TYPE, id("copy_lore"), COPY_LORE);
 	}
 }
