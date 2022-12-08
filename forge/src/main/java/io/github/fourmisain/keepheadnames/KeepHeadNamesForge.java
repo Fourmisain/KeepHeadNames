@@ -1,6 +1,5 @@
 package io.github.fourmisain.keepheadnames;
 
-import io.github.fourmisain.keepheadnames.KeepHeadNames;
 import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
