@@ -1,43 +1,49 @@
 plugins {
 	id "architectury-plugin" version "3.4-SNAPSHOT"
-	id "dev.architectury.loom" version "1.0-SNAPSHOT" apply false
+	id "dev.architectury.loom" version "1.3-SNAPSHOT" apply false
 }
 
 architectury {
-	minecraft = rootProject.minecraft_version
+	minecraft = project.minecraft_version
 }
 
 subprojects {
 	apply plugin: "dev.architectury.loom"
 
 	dependencies {
-		minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
-		mappings "net.fabricmc:yarn:${rootProject.yarn_mappings}:v2"
+		minecraft "com.mojang:minecraft:${project.minecraft_version}"
+		mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+	}
+
+	version = "${project.mod_version}-${project.name}-${project.minecraft_version}"
+
+	processResources {
+		// expand every property from gradle.properties
+		def stringProperties = providers.gradlePropertiesPrefixedBy('').get()
+		stringProperties.each { inputs.property(it.key, it.value) }
+
+		["${project.mod_id}.mixins.json", "fabric.mod.json", "META-INF/mods.toml"].each {
+			filesMatching(it) {
+				expand(stringProperties) {
+					escapeBackslash = true
+				}
+			}
+		}
 	}
 }
 
 allprojects {
 	apply plugin: "java"
 	apply plugin: "architectury-plugin"
-	apply plugin: "maven-publish"
 
-	archivesBaseName = rootProject.archives_base_name
-	// version = rootProject.mod_version
-	group = rootProject.maven_group
+	// version = project.mod_version
+	group = project.maven_group
 
-	repositories {
-		// Add repositories to retrieve artifacts from in here.
-		// You should only use this when depending on other mods because
-		// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-		// See https://docs.gradle.org/current/userguide/declaring_repositories.html
-		// for more information about repositories.
+	base {
+		archivesName = project.archives_base_name
 	}
 
 	tasks.withType(JavaCompile).configureEach {
 		it.options.release = 17
-	}
-
-	java {
-		withSourcesJar()
 	}
 }

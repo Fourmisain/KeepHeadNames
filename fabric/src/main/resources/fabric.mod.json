@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"id": "keepheadnames",
-	"version": "${version}",
+	"version": "${mod_version}",
 	"name": "Keep Head Names",
 	"description": "Keep display names and lore tags of player heads (fix MC-174496)",
 	"authors": [
@@ -25,6 +25,6 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.14.6",
-		"minecraft": ">=1.19.0"
+		"minecraft": "${fabric_game_version_range}"
 	}
 }
