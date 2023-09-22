@@ -1,27 +1,35 @@
 package io.github.fourmisain.keepheadnames.util;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.github.fourmisain.keepheadnames.KeepHeadNames;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.condition.LootCondition;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameter;
-import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.function.ConditionalLootFunction;
 import net.minecraft.loot.function.LootFunctionType;
-import net.minecraft.util.JsonHelper;
+import net.minecraft.loot.provider.nbt.LootNbtProvider;
+import net.minecraft.loot.provider.nbt.LootNbtProviderTypes;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
 
+import java.util.List;
 import java.util.Set;
 
 import static io.github.fourmisain.keepheadnames.KeepHeadNames.setLore;
 
 public class CopyLoreLootFunction extends ConditionalLootFunction {
-	final CopyLoreLootFunction.Source source;
+	public static final Codec<CopyLoreLootFunction> CODEC = RecordCodecBuilder.create(
+		instance -> method_53344(instance)
+			.and(LootNbtProviderTypes.CODEC.fieldOf("source").forGetter(lootFunction -> lootFunction.source))
+			.apply(instance, CopyLoreLootFunction::new)
+	);
 
-	public CopyLoreLootFunction(LootCondition[] lootConditions, CopyLoreLootFunction.Source source) {
+	final LootNbtProvider source;
+
+	public CopyLoreLootFunction(List<LootCondition> lootConditions, LootNbtProvider source) {
 		super(lootConditions);
 		this.source = source;
 	}
@@ -33,58 +41,18 @@ public class CopyLoreLootFunction extends ConditionalLootFunction {
 
 	@Override
 	public Set<LootContextParameter<?>> getRequiredParameters() {
-		return ImmutableSet.of(this.source.parameter);
+		return source.getRequiredParameters();
 	}
 
 	@Override
 	public ItemStack process(ItemStack stack, LootContext context) {
-		Object object = context.get(this.source.parameter);
+		NbtElement nbtElement = source.getNbt(context);
 
-		if (object instanceof Loreable loreable) {
-			setLore(stack, loreable.getLore());
+		if (nbtElement != null && nbtElement.getType() == NbtElement.COMPOUND_TYPE) {
+			NbtList lore = ((NbtCompound) nbtElement).getList("Lore", NbtElement.STRING_TYPE);
+			setLore(stack, lore);
 		}
 
 		return stack;
-	}
-
-	public static net.minecraft.loot.function.ConditionalLootFunction.Builder<?> builder(CopyLoreLootFunction.Source source) {
-		return builder((conditions) -> new CopyLoreLootFunction(conditions, source));
-	}
-
-	public static class Serializer extends ConditionalLootFunction.Serializer<CopyLoreLootFunction> {
-		public void toJson(JsonObject jsonObject, CopyLoreLootFunction copyNameLootFunction, JsonSerializationContext jsonSerializationContext) {
-			super.toJson(jsonObject, copyNameLootFunction, jsonSerializationContext);
-			jsonObject.addProperty("source", copyNameLootFunction.source.name);
-		}
-
-		public CopyLoreLootFunction fromJson(JsonObject jsonObject, JsonDeserializationContext jsonDeserializationContext, LootCondition[] lootConditions) {
-			CopyLoreLootFunction.Source source = CopyLoreLootFunction.Source.get(JsonHelper.getString(jsonObject, "source"));
-			return new CopyLoreLootFunction(lootConditions, source);
-		}
-	}
-
-	public enum Source {
-		THIS("this", LootContextParameters.THIS_ENTITY),
-		KILLER("killer", LootContextParameters.KILLER_ENTITY),
-		KILLER_PLAYER("killer_player", LootContextParameters.LAST_DAMAGE_PLAYER),
-		BLOCK_ENTITY("block_entity", LootContextParameters.BLOCK_ENTITY);
-
-		public final String name;
-		public final LootContextParameter<?> parameter;
-
-		Source(String name, LootContextParameter<?> parameter) {
-			this.name = name;
-			this.parameter = parameter;
-		}
-
-		public static CopyLoreLootFunction.Source get(String name) {
-			for (var source : values()) {
-				if (source.name.equals(name)) {
-					return source;
-				}
-			}
-
-			throw new IllegalArgumentException("Invalid name source " + name);
-		}
 	}
 }

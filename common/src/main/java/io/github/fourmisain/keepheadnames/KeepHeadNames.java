@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 public class KeepHeadNames {
 	public static final String MOD_ID = "keepheadnames";
 
-	public static final LootFunctionType COPY_LORE = new LootFunctionType(new CopyLoreLootFunction.Serializer());
+	public static final LootFunctionType COPY_LORE = new LootFunctionType(CopyLoreLootFunction.CODEC);
 
 	public static Identifier id(String path) {
 		return new Identifier(MOD_ID, path);
