@@ -9,9 +9,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 @Mod(KeepHeadNames.MOD_ID)
 public class KeepHeadNamesForge {
 	public KeepHeadNamesForge() {
-		// this mod is server-only
-		ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class, () -> new IExtensionPoint.DisplayTest(() -> IExtensionPoint.DisplayTest.IGNORESERVERONLY, (a, b) -> true));
-
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(KeepHeadNamesForge::commonSetup);
 	}
 
