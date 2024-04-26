@@ -1,6 +1,6 @@
 plugins {
 	id "architectury-plugin" version "3.4-SNAPSHOT"
-	id "dev.architectury.loom" version "1.4-SNAPSHOT" apply false
+	id "dev.architectury.loom" version "1.6-SNAPSHOT" apply false
 }
 
 architectury {
@@ -12,7 +12,8 @@ subprojects {
 
 	dependencies {
 		minecraft "com.mojang:minecraft:${project.minecraft_version}"
-		mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+		if (project.name != 'neoforge')
+			mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	}
 
 	version = "${project.mod_version}-${project.name}-${project.minecraft_version}"
@@ -22,7 +23,7 @@ subprojects {
 		def stringProperties = providers.gradlePropertiesPrefixedBy('').get()
 		stringProperties.each { inputs.property(it.key, it.value) }
 
-		["${project.mod_id}.mixins.json", "fabric.mod.json", "META-INF/mods.toml"].each {
+		["${project.mod_id}.mixins.json", "fabric.mod.json", "META-INF/mods.toml", "META-INF/neoforge.mods.toml"].each {
 			filesMatching(it) {
 				expand(stringProperties) {
 					escapeBackslash = true

@@ -4,8 +4,7 @@
 	"package": "io.github.fourmisain.keepheadnames.mixin",
 	"compatibilityLevel": "JAVA_${java_version}",
 	"mixins": [
-		"PlayerSkullBlockMixin",
-		"SkullBlockEntityMixin"
+		"SchemasMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

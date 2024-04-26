@@ -15,11 +15,6 @@
 	"license": "MIT",
 	"icon": "assets/keepheadnames/icon.png",
 	"environment": "*",
-	"entrypoints": {
-		"main": [
-			"io.github.fourmisain.keepheadnames.KeepHeadNamesFabric"
-		]
-	},
 	"mixins": [
 		"keepheadnames.mixins.json"
 	],

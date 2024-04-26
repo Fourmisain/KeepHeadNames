@@ -2,40 +2,28 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
           "functions": [
             {
-              "function": "minecraft:copy_name",
+              "function": "minecraft:copy_components",
+              "include": [
+                "minecraft:profile",
+                "minecraft:note_block_sound",
+                "minecraft:custom_name",
+                "minecraft:item_name",
+                "minecraft:lore",
+                "minecraft:custom_data"
+              ],
               "source": "block_entity"
-            },
-            {
-              "function": "keepheadnames:copy_lore",
-              "source": "block_entity"
-            },
-            {
-              "function": "minecraft:copy_nbt",
-              "source": "block_entity",
-              "ops": [
-                {
-                  "op": "replace",
-                  "source": "SkullOwner",
-                  "target": "SkullOwner"
-                },
-                {
-                  "op": "replace",
-                  "source": "note_block_sound",
-                  "target": "BlockEntityTag.note_block_sound"
-                }
-              ]
             }
           ],
           "name": "minecraft:player_head"
         }
-      ]
+      ],
+      "rolls": 1.0
     }
   ],
   "random_sequence": "minecraft:blocks/player_head"
