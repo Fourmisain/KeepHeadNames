@@ -15,7 +15,7 @@ public abstract class SchemasMixin {
 		method = "build",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/datafixer/fix/RemoveEmptyItemInSuspiciousBlockFix;<init>(Lcom/mojang/datafixers/schemas/Schema;)V"
+			target = "Lnet/minecraft/datafixer/fix/PlayerHeadBlockProfileFix;<init>(Lcom/mojang/datafixers/schemas/Schema;)V"
 		)
 	)
 	private static Schema addSkullNameFix(Schema outputSchema, @Local(argsOnly = true) DataFixerBuilder builder) {
